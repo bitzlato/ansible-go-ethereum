@@ -1,0 +1,23 @@
+---
+eth_user_name: ethereum
+eth_sevice_name: ethereum
+
+eth_repo: "https://github.com/ethereum/go-ethereum.git"
+eth_releases: "v1.10.19"
+
+eth_root: "/home/{{ eth_user_name }}"
+eth_datadir: "{{ eth_root}}/ethereum_db"
+eth_service_dir: "/home/{{ eth_user_name }}/.config/systemd/user/"
+
+eth_network: 'mainnet'
+
+eth_port: 30303
+
+eth_http_addr: "127.0.0.1"
+eth_ws_addr: "127.0.0.1"
+        
+eth_http_port: 8545
+eth_ws_port: 8546
+
+eth_service_enabled: 'no' # yes
+eth_service_state: 'stopped' # started

@@ -1,0 +1,15 @@
+[Unit]
+Description= ethereum full node
+After=network.target
+
+[Service]
+# run as root, set base_path in ethereum.toml
+ExecStart={{ ethereum_path }} --base-path={{ ethereum_datadir }} --chain mainnet --pruning fast --jsonrpc-apis=all --jsonrpc-threads=16 --jsonrpc-server-threads=16  --no-persistent-txqueue --cache-size 1024 --min-peers 100 --max-peers 200 --ws-interface={{ ethereum_ws_interface }} --jsonrpc-interface={{ ethereum_jsonrpc_interface }} -l info --log-file {{ ethereum_datadir }}/ethereum.log
+Restart=on-failure
+
+# Specifies which signal to use when killing a service. Defaults to SIGTERM.
+# SIGHUP gives parity time to exit cleanly before SIGKILL (default 90s)
+KillSignal=SIGHUP
+
+[Install]
+WantedBy=default.target

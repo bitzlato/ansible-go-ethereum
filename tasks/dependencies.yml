@@ -1,0 +1,4 @@
+- name: "install dependencies"
+  apt:
+    pkg: ['make', 'git', 'gcc']
+    state: present

@@ -1,0 +1,41 @@
+---
+- name: "Create {{ eth_user_name }} user"
+  user:
+    name: "{{ eth_user_name }}"
+    home: "/home/{{ eth_user_name }}"
+    shell: /bin/bash
+    system: yes
+
+- name: "register uid"
+  command: id -u {{ eth_user_name }}
+  register: user_uid
+  changed_when: false
+
+- name: "register gid"
+  command: id -g {{ eth_user_name }}
+  register: user_gid
+  changed_when: false  
+
+- name: "Enable linger for {{ eth_user_name }}"
+  command: loginctl enable-linger {{eth_user_name}}
+  changed_when: false
+
+- name: "Ensure {{ eth_user_name }} user is part of systemd-journal group"
+  user:
+    name: "{{ eth_user_name }}"
+    groups: systemd-journal
+    append: true  
+
+- name: "Creates directory"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ eth_user_name }}"
+    group: "{{ eth_user_name }}"
+    mode: 0755
+    recurse: yes
+  loop:
+    - "{{ eth_root }}"
+    - "{{ eth_datadir }}"
+    - "{{ eth_service_dir }}"
+    - "{{ eth_root }}/bin"

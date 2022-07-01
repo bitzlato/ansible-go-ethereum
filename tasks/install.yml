@@ -1,0 +1,18 @@
+- name: "clone eth src"
+  git:
+    repo: "https://github.com/ethereum/go-ethereum.git"
+    dest: "{{ eth_root }}/go-ethereum"
+    clone: true
+    version: "{{ eth_releases }}"
+    force: yes
+  become: true
+  become_user: "{{ eth_user_name }}"
+
+- name: "geth building"
+  make:
+    chdir: "{{ eth_root }}/go-ethereum"
+    target: geth
+  environment:
+    PATH: "{{ golang_path }}"
+  become: true
+  become_user: "{{ eth_user_name }}"
