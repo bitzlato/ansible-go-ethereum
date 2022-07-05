@@ -2,7 +2,7 @@
 - name: "Create {{ eth_sevice_name }} systemd service"
   template:
     src: ethereum.service.j2
-    dest: "{{ eth_datadir }}/{{ eth_sevice_name }}.service"
+    dest: "{{ eth_service_dir }}/{{ eth_sevice_name }}.service"
     mode: '0644'
 
 - name: "Find uid of {{ eth_user_name }}"
