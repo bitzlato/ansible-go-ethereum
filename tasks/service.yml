@@ -28,7 +28,7 @@
 - name: "Copy ethereum.sh"
   template:
     src: ethereum.sh
-    dest: /home/ethereum/bin/ethereum.sh
+    dest: {{ eth_root }}/bin/ethereum.sh
     owner: "{{ eth_user_name }}"
     group: "{{ eth_user_name }}"
     mode: 0755
