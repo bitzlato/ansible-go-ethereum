@@ -1,0 +1,17 @@
+- name: "clone lighthouse src"
+  git:
+    repo: "{{ lth_repo }}"
+    dest: "{{ eth_root }}/{{ lth_repo_dir }}"
+    clone: true
+    version: "{{ lth_releases }}"
+    force: yes
+  become: true
+  become_user: "{{ eth_user_name }}"
+
+- name: "lighthouse building"
+  make:
+    chdir: "{{ eth_root }}/{{ lth_repo_dir }}"
+  environment:
+    PATH: "{{ lth_cargo_path }}"
+  become: true
+  become_user: "{{ eth_user_name }}"

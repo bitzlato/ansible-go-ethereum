@@ -5,6 +5,12 @@
     dest: "{{ eth_service_dir }}/{{ eth_sevice_name }}.service"
     mode: '0644'
 
+- name: "Create lighthouse systemd service"
+  template:
+    src: lighthouse.service.j2
+    dest: "{{ eth_service_dir }}/lighthouse.service"
+    mode: '0644'    
+
 - name: "Find uid of {{ eth_user_name }}"
   command: "id -u {{ eth_user_name }}"
   register: the_user_uid
@@ -28,10 +34,30 @@
 - name: "Copy ethereum.sh"
   template:
     src: ethereum.sh
-    dest: {{ eth_root }}/bin/ethereum.sh
+    dest: "{{ eth_root }}/bin/ethereum.sh"
     owner: "{{ eth_user_name }}"
     group: "{{ eth_user_name }}"
     mode: 0755
+
+- name: "Copy lighthouse.sh"
+  template:
+    src: lighthouse.sh
+    dest: "{{ eth_root }}/bin/lighthouse.sh"
+    owner: "{{ eth_user_name }}"
+    group: "{{ eth_user_name }}"
+    mode: 0755    
+
+- name: "Start and enable lighthouse service"
+  become: true
+  become_user: "{{ eth_user_name }}"
+  environment:
+    XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
+  systemd:
+    scope: user
+    daemon_reload: yes
+    name: "lighthouse.service"
+    enabled: "{{ lth_service_enabled }}"
+    state: "{{ lth_service_state }}"    
 
 - name: "Start and enable {{ eth_sevice_name }} service"
   become: true

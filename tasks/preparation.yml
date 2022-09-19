@@ -39,3 +39,24 @@
     - "{{ eth_datadir }}"
     - "{{ eth_service_dir }}"
     - "{{ eth_root }}/bin"
+    - "{{ lth_data }}"
+
+- name: "Checking if a jwtsecret file exists"
+  stat:
+    path: "{{ eth_root }}/jwtsecret"
+  register: result
+
+- name: "Generate random string with length 32 for jwtsecret"
+  ansible.builtin.shell: openssl rand -hex 32
+  register: jwtsecret
+  when: result.stat.exists == false
+
+- name: "Creating a file jwtsecret with content"
+  copy:
+    dest: "{{ eth_root }}/jwtsecret"
+    owner: "{{ eth_user_name }}"
+    group: "{{ eth_user_name }}"
+    mode: '0640'
+    content: |
+      {{ jwtsecret.stdout }}
+  when: result.stat.exists == false

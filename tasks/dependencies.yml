@@ -1,4 +1,34 @@
+---
 - name: "install dependencies"
-  apt:
-    pkg: ['make', 'git', 'gcc']
+  ansible.builtin.apt:
+    pkg: ['make', 'git', 'gcc', 'g++', 'cmake', 'pkg-config', 'llvm-dev', 'libclang-dev', 'clang']
     state: present
+    update_cache: yes
+
+- name: "check if cargo is installed"
+  shell: rustc -V
+  register: rust_exists
+  ignore_errors: yes
+  become: true
+  become_user: "{{ eth_user_name }}"
+
+- name: "download rust installer"
+  when: rust_exists is failed
+  get_url:
+    url: https://sh.rustup.rs
+    dest: /{{ eth_root }}/sh.rustup.rs
+    mode: '0755'
+    force: 'yes'
+  become: true
+  become_user: "{{ eth_user_name }}"
+
+- name: "install rust/cargo"
+  when: rust_exists is failed
+  shell: /{{ eth_root }}/sh.rustup.rs -y
+  become: true
+  become_user: "{{ eth_user_name }}"
+
+- name: "Update bashrc for {{ eth_user_name }}"
+  lineinfile:
+    path: "/home/{{ eth_user_name }}/.bashrc"
+    line: "[ -f ~/.cargo/env ] && source $HOME/.cargo/env"
