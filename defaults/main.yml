@@ -3,11 +3,12 @@ eth_user_name: ethereum
 eth_sevice_name: ethereum
 
 eth_repo: "https://github.com/ethereum/go-ethereum.git"
-eth_releases: "v1.10.23"
+eth_releases: "v1.10.26"
 eth_repo_dir: go-ethereum
 
 lth_repo: "https://github.com/sigp/lighthouse.git"
-lth_releases: "v3.1.0"
+lth_releases: "v3.3.0"
+lth_releasei_url: "https://github.com/sigp/lighthouse/releases/download/{{ lth_releases }}/lighthouse-{{ lth_releases }}-x86_64-unknown-linux-gnu-portable.tar.gz"
 lth_repo_dir: lighthouse
 
 eth_root: "/home/{{ eth_user_name }}"
@@ -15,7 +16,6 @@ eth_datadir: "{{ eth_root}}/ethereum_db"
 eth_service_dir: "/home/{{ eth_user_name }}/.config/systemd/user/"
 
 lth_data: "{{ eth_root}}/lighthouse_db"
-lth_cargo_path: "/home/ethereum/.cargo/bin:{{ ansible_env.PATH }}"
 
 eth_network: 'mainnet'
 

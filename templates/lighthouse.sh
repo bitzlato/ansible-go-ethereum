@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-exec {{ eth_root }}/{{ lth_repo_dir }}/target/release/lighthouse \
+exec {{ eth_root }}/bin/lighthouse \
      --network mainnet \
      --debug-level info \
      beacon_node \
