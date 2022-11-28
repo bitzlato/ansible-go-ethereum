@@ -18,6 +18,7 @@ eth_service_dir: "/home/{{ eth_user_name }}/.config/systemd/user/"
 lth_data: "{{ eth_root}}/lighthouse_db"
 
 eth_network: 'mainnet'
+lth_network: 'mainnet'
 
 eth_port: 30303
 

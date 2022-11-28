@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 exec {{ eth_root }}/bin/lighthouse \
-     --network mainnet \
+     --network "{{ lth_network }}" \
      --debug-level info \
      beacon_node \
      --datadir "{{ lth_data }}" \
